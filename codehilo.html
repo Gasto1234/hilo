@@ -2,22 +2,42 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hilomie ?</title>
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #fff0f5;
-      overflow: hidden;
-      font-family: 'Arial', sans-serif;
+    * {
+      box-sizing: border-box;
     }
 
-    #love-button {
-      font-size: 3rem;
-      padding: 1rem 2rem;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Arial', sans-serif;
+      background-color: #fff0f5;
+      overflow: hidden;
+    }
+
+    .section {
+      display: none;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    #hilomie-button {
+      font-size: 2.5rem;
+      padding: 1.2rem 2rem;
       border: none;
       border-radius: 15px;
       background-color: #ff69b4;
@@ -25,33 +45,114 @@
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       transition: transform 0.2s;
+      margin-bottom: 2rem;
     }
 
-    #love-button:hover {
-      transform: scale(1.1);
+    #hilomie-button:hover {
+      transform: scale(1.05);
     }
 
     .love {
       position: absolute;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       color: #ff1493;
       animation: fadeOut 2s ease-out forwards;
+      pointer-events: none;
     }
 
     @keyframes fadeOut {
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-50px); }
     }
+
+    #next {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      background-color: #ff1493;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    /* Page 2 */
+    #page2 {
+      background-color: #ffe4e1;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #d6006d;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      position: relative;
+      height: 200px;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: max-content;
+      max-width: 90vw;
+    }
+
+    #yes-btn {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    #no-btn {
+      background-color: #f08080;
+      color: white;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   </style>
 </head>
 <body>
-  <button id="love-button">Hilomie ?</button>
+
+  <!-- Page 1 -->
+  <div id="page1" class="section active">
+    <button id="hilomie-button">Hilomie ?</button>
+    <button id="next">Suivant</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div id="page2" class="section">
+    <h1>C’est moi qui t’aime le plus</h1>
+    <div class="buttons">
+      <button id="yes-btn" class="btn">Oui c’est toi</button>
+      <button id="no-btn" class="btn">Non c’est moi</button>
+    </div>
+  </div>
 
   <script>
-    const button = document.getElementById("love-button");
+    const hilomieButton = document.getElementById("hilomie-button");
+    const nextButton = document.getElementById("next");
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    const noBtn = document.getElementById("no-btn");
 
-    button.addEventListener("click", () => {
-      for (let i = 0; i < 10; i++) {
+    hilomieButton.addEventListener("click", () => {
+      for (let i = 0; i < 12; i++) {
         const love = document.createElement("div");
         love.classList.add("love");
         love.textContent = "je t'aime";
@@ -65,6 +166,30 @@
           love.remove();
         }, 2000);
       }
+    });
+
+    nextButton.addEventListener("click", () => {
+      page1.classList.remove("active");
+      page2.classList.add("active");
+    });
+
+    // Bouton "Non c’est moi" fuyant
+    noBtn.addEventListener("mouseenter", () => {
+      const container = document.querySelector(".buttons");
+      const maxX = container.offsetWidth - noBtn.offsetWidth;
+      const maxY = container.offsetHeight - noBtn.offsetHeight;
+
+      let newX, newY;
+      do {
+        newX = Math.random() * maxX;
+        newY = Math.random() * maxY;
+      } while (
+        Math.abs(newX - noBtn.offsetLeft) < 50 &&
+        Math.abs(newY - noBtn.offsetTop) < 50
+      );
+
+      noBtn.style.left = newX + "px";
+      noBtn.style.top = newY + "px";
     });
   </script>
 </body>
