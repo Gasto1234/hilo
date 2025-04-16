@@ -99,6 +99,8 @@
       align-items: center;
       position: relative;
       height: 200px;
+      width: 100%;
+      max-width: 300px;
     }
 
     .btn {
@@ -125,6 +127,12 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
+    #message {
+      font-size: 2rem;
+      color: #ff1493;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -142,6 +150,7 @@
       <button id="yes-btn" class="btn">Oui c’est toi</button>
       <button id="no-btn" class="btn">Non c’est moi</button>
     </div>
+    <div id="message"></div>
   </div>
 
   <script>
@@ -150,6 +159,8 @@
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
     const noBtn = document.getElementById("no-btn");
+    const yesBtn = document.getElementById("yes-btn");
+    const message = document.getElementById("message");
 
     hilomieButton.addEventListener("click", () => {
       for (let i = 0; i < 12; i++) {
@@ -173,8 +184,7 @@
       page2.classList.add("active");
     });
 
-    // Bouton "Non c’est moi" fuyant
-    noBtn.addEventListener("mouseenter", () => {
+    function moveNoBtn() {
       const container = document.querySelector(".buttons");
       const maxX = container.offsetWidth - noBtn.offsetWidth;
       const maxY = container.offsetHeight - noBtn.offsetHeight;
@@ -190,6 +200,13 @@
 
       noBtn.style.left = newX + "px";
       noBtn.style.top = newY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoBtn);
+    noBtn.addEventListener("click", moveNoBtn);
+
+    yesBtn.addEventListener("click", () => {
+      message.textContent = "ehehehe j'ai gagné !! ";
     });
   </script>
 </body>
