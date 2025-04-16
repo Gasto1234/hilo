@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hilomie ?</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff0f5;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #love-button {
+      font-size: 3rem;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 15px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    #love-button:hover {
+      transform: scale(1.1);
+    }
+
+    .love {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #ff1493;
+      animation: fadeOut 2s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
+    }
+  </style>
+</head>
+<body>
+  <button id="love-button">Hilomie ?</button>
+
+  <script>
+    const button = document.getElementById("love-button");
+
+    button.addEventListener("click", () => {
+      for (let i = 0; i < 10; i++) {
+        const love = document.createElement("div");
+        love.classList.add("love");
+        love.textContent = "je t'aime";
+
+        love.style.left = Math.random() * window.innerWidth + "px";
+        love.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(love);
+
+        setTimeout(() => {
+          love.remove();
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
